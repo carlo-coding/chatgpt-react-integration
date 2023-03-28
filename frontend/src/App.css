@@ -1,0 +1,14 @@
+body {
+  background-color: var(--clr-main-dark);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  padding: 20px;
+  background-color: transparent;
+  gap: 10px;
+  max-width: 900px;
+  margin: 40px auto 10px;
+}
