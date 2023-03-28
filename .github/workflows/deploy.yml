@@ -1,0 +1,29 @@
+name: Deploy to remote server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📂 Sync Production Config
+        uses: easingthemes/ssh-deploy@v4.0.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SERVER_KEY }}
+          REMOTE_HOST: ${{ secrets.VPS_SERVER_IP }}
+          REMOTE_USER: ${{ secrets.VPS_SERVER_USERNAME }}
+          SOURCE: backend/
+          TARGET: ./mygpt/
+          SCRIPT_AFTER: |
+            cd mygpt
+            npm install
+            pm2 stop mygpt
+            pm2 delete mygpt
+            pm2 start "npm start" --name mygpt

@@ -6,7 +6,7 @@ const sqlite3 = require("sqlite3").verbose();
 require("dotenv").config();
 
 const app = express();
-const port = 3000;
+const port = 5897;
 
 // Initialize OpenAI API client
 const configuration = new Configuration({
