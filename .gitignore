@@ -4,4 +4,5 @@ node_modules
 /backend/.env
 /backend/*.db
 /frontend/.env
+/frontend/dist
 /test

@@ -63,7 +63,7 @@ app.post("/chat/:id", async (req, res) => {
 
     // Send message to ChatGPT API
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4",
       messages: [
         {
           role: "system",
