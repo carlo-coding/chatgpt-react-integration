@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, Route, useRoute } from "wouter";
-import ReactMarkdown from "react-markdown";
 import "./App.css";
 import Chat from "./components/Chat";
 
@@ -14,13 +13,16 @@ const ChatApp = () => {
 
   // Send message to backend API and update chat history
   const sendMessage = async (message) => {
-    const response = await fetch(`http://localhost:3000/chat/${chatId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/chat/${chatId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      }
+    );
     const data = await response.json();
     setHistory([
       ...history,
