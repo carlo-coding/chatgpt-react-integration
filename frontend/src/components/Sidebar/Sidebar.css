@@ -1,0 +1,37 @@
+.sidebar {
+  padding: 10px;
+  border-right: 1px solid white;
+  position: fixed;
+  min-height: 100vh;
+  width: 230px;
+  top: 0;
+  left: 0;
+  color: azure;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--clr-main-dark);
+}
+
+.sidebar .chat {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  gap: 7px;
+  border-radius: 4px;
+}
+
+.sidebar .chats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  flex: 1;
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

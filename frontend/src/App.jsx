@@ -1,64 +1,37 @@
-import { useEffect, useState } from "react";
-import { useLocation, Route, useRoute } from "wouter";
+import { useEffect } from "react";
+import { useLocation, Route } from "wouter";
 import "./App.css";
-import Chat from "./components/Chat";
-
-const ChatApp = () => {
-  // Get chatId from wouter params
-  const [match, params] = useRoute("/chat/:id");
-  const chatId = params.id;
-
-  // Initialize state for chat history and current message
-  const [history, setHistory] = useState([]);
-
-  // Send message to backend API and update chat history
-  const sendMessage = async (message) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/chat/${chatId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message }),
-      }
-    );
-    const data = await response.json();
-    setHistory([
-      ...history,
-      { id: `user${chatId}`, name: "User", message: message, type: "mine" },
-      {
-        id: `bot${chatId}`,
-        name: "Assistant",
-        message: data.response,
-        type: "friend",
-      },
-    ]);
-  };
-
-  return (
-    <div className="chat-container">
-      <Chat
-        myName={"User"}
-        myId={chatId}
-        disabled={false}
-        messages={history}
-        sendMessage={(message) => sendMessage(message)}
-      />
-    </div>
-  );
-};
+import Landing from "./pages/Landing/Landing";
+import Subscribe from "./pages/Subscribe/Subscribe";
+import Mygpt from "./pages/Mygpt/Mygpt";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./common/routes";
+import { useCookies } from "react-cookie";
+import { SnackbarProvider } from "notistack";
 
 const App = () => {
-  const randomChatId = Math.random().toString(16).slice(2);
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
+  const [cookies] = useCookies(["token"]);
   useEffect(() => {
-    navigate("/chat/" + randomChatId);
+    if (cookies.token) {
+      return navigate("/chat/");
+    }
+    if (location.startsWith("/chat") && !cookies.token) {
+      return navigate("/");
+    }
+    if (location.startsWith("/profile") && !cookies.token) {
+      return navigate("/");
+    }
   }, []);
   return (
-    <div>
-      <Route path="/chat/:id" component={ChatApp} />
-    </div>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <SnackbarProvider maxSnack={3}>
+        <Route path={PUBLIC_ROUTES.HOME} component={Landing} />
+        <Route path={PUBLIC_ROUTES.SUBSCRIBE} component={Subscribe} />
+        <Route path={PRIVATE_ROUTES.CHAT} component={Mygpt} />
+        <Route path={`${PRIVATE_ROUTES.CHAT}/:id`} component={Mygpt} />
+      </SnackbarProvider>
+    </GoogleOAuthProvider>
   );
 };
 export default App;

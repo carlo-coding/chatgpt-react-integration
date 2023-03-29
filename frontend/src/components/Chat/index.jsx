@@ -16,7 +16,6 @@ function Chat({ myId, myName, messages, sendMessage, ...props }) {
   const [myMessage, setMyMessage] = useState("");
   const [allMessages, setAllMessages] = useState(messages);
   const chatRef = useRef(null);
-
   const handleSendMessage = (event) => {
     event.preventDefault();
     if (!myMessage) return;
@@ -29,18 +28,7 @@ function Chat({ myId, myName, messages, sendMessage, ...props }) {
   };
 
   useEffect(() => {
-    // Save last message of prop into the chat state
-    let lastMessage = messages[messages.length - 1];
-    if (!lastMessage) return;
-    setAllMessages((prev) => [
-      ...prev,
-      {
-        id: lastMessage.name,
-        name: lastMessage.name,
-        message: lastMessage.message,
-        type: "friend",
-      },
-    ]);
+    setAllMessages(messages);
   }, [messages]);
 
   useEffect(() => {
@@ -72,7 +60,7 @@ function Chat({ myId, myName, messages, sendMessage, ...props }) {
           value={myMessage}
           onChange={(e) => setMyMessage(e.target.value)}
         />
-        <Button type="submit">Send message</Button>
+        <Button type="submit">Send</Button>
       </form>
     </div>
   );

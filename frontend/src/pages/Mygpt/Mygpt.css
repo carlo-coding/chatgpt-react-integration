@@ -1,0 +1,10 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  padding-left: 200px;
+  background-color: transparent;
+  gap: 10px;
+  max-width: 1000px;
+  margin: 40px auto 10px;
+}

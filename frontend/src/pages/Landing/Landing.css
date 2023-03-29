@@ -1,0 +1,45 @@
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+  font-family: "Arial", sans-serif;
+  padding: 20px;
+}
+
+.landing-container h1 {
+  color: #444;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.landing-container p {
+  color: #777;
+  font-size: 1.2rem;
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 30px;
+}
+
+.landing-container .chatbot-image {
+  max-width: 550px;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.landing-container .signup-button {
+  background-color: #4285f4;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.landing-container .signup-button:hover {
+  background-color: #3060c0;
+}
