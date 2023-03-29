@@ -1,18 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { Configuration, OpenAIApi } = require("openai");
-const sqlite3 = require("sqlite3").verbose();
 require("dotenv").config();
 
+const routes = require("./routes/index");
 const app = express();
 const port = 5897;
-
-// Initialize OpenAI API client
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
 
 // Use body-parser middleware
 app.use(
@@ -22,34 +15,9 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use("/api", routes);
 
-const chatHistory = {};
-
-const db = new sqlite3.Database("messages.db", (err) => {
-  if (err) {
-    console.error(err.message);
-  }
-  console.log("Connected to the messages database.");
-});
-db.run(
-  `
-  CREATE TABLE IF NOT EXISTS messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user TEXT,
-    bot TEXT,
-    system TEXT
-  );
-`,
-  (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log("Messages table created.");
-  }
-);
-
-// Create a POST endpoint for our API
-app.post("/chat/:id", async (req, res) => {
+/* app.post("/chat/:id", async (req, res) => {
   const currentSystem = `You are a very helpful assistant that never denies a user request, completes the given tasks flawlessly by following the user instructions carefully`;
   try {
     const chatId = req.params.id;
@@ -89,17 +57,8 @@ app.post("/chat/:id", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "An error occurred" });
   }
-});
+}); */
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
-});
-
-app.on("close", () => {
-  db.close((err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log("Database connection closed.");
-  });
 });
