@@ -143,7 +143,7 @@ router.post("/chats/:id/messages", verifyToken, async (req, res) => {
     role: "user",
     content: req.body.message,
   });
-  /* const completion = await openai.createChatCompletion({
+  const completion = await openai.createChatCompletion({
     model: "gpt-4",
     messages: [
       {
@@ -152,8 +152,8 @@ router.post("/chats/:id/messages", verifyToken, async (req, res) => {
       },
       ...gptMessages,
     ],
-  }); */
-  const bot = "Hello"; //completion.data.choices[0].message.content;
+  });
+  const bot = completion.data.choices[0].message.content;
   const createdMessage = (
     await db("messages")
       .insert({
@@ -165,80 +165,5 @@ router.post("/chats/:id/messages", verifyToken, async (req, res) => {
   )[0];
   return res.status(200).json({ message: createdMessage });
 });
-
-/* router.get("/users/:id", async (req, res) => {
-  const user = await db.getUser(req.params.id);
-  res.json(user);
-}); */
-
-/* router.put("/users/:id", async (req, res) => {
-  await db.updateUser(req.params.id, req.body);
-  res.sendStatus(200);
-}); */
-
-/* router.delete("/users/:id", async (req, res) => {
-  await db.deleteUser(req.params.id);
-  res.sendStatus(200);
-}); */
-
-/* router.post("/plans", async (req, res) => {
-  const plan = await db.createPlan(req.body);
-  res.status(201).json(plan);
-});
-
-router.get("/plans/:id", async (req, res) => {
-  const plan = await db.getPlan(req.params.id);
-  res.json(plan);
-});
-
-router.put("/plans/:id", async (req, res) => {
-  await db.updatePlan(req.params.id, req.body);
-  res.sendStatus(200);
-});
-
-router.delete("/plans/:id", async (req, res) => {
-  await db.deletePlan(req.params.id);
-  res.sendStatus(200);
-}); 
-
-router.post("/chats", async (req, res) => {
-  const chat = await db.createChat(req.body);
-  res.status(201).json(chat);
-});
-
-router.get("/chats/:id", async (req, res) => {
-  const chat = await db.getChat(req.params.id);
-  res.json(chat);
-});
-
-router.put("/chats/:id", async (req, res) => {
-  await db.updateChat(req.params.id, req.body);
-  res.sendStatus(200);
-});
-
-router.delete("/chats/:id", async (req, res) => {
-  await db.deleteChat(req.params.id);
-  res.sendStatus(200);
-});
-
-router.post("/messages", async (req, res) => {
-  const message = await db.createMessage(req.body);
-  res.status(201).json(message);
-});
-
-router.get("/chats/:id/messages", async (req, res) => {
-  const messages = await db.getMessagesByChat(req.params.id);
-  res.json(messages);
-});
-
-router.put("/messages/:id", async (req, res) => {
-  await db.updateMessage(req.params.id, req.body);
-  res.sendStatus(200);
-});
-
-router.delete("/messages/:id", async (req, res) => {
-  await db.deleteMessage(req.params.id);
-  res.sendStatus(200);
-}); */
 
 module.exports = router;
